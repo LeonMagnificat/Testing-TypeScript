@@ -1,7 +1,13 @@
 import createHttpError from "http-errors";
-import { verifyAccessToken } from "../Tools/tools.js";
+import { verifyAccessToken } from "../Tools/tools";
+import { RequestHandler, Request } from "express";
+import { TokenPayload } from "../Tools/tools";
 
-export const loginFirstMiddleware = async (req, res, next) => {
+interface UserRequest extends Request {
+  user?: TokenPayload;
+}
+
+export const loginFirstMiddleware: RequestHandler = async (req: UserRequest, res, next) => {
   if (!req.headers.authorization) {
     next(createHttpError(401, "No Bearer Token provided!"));
   } else {

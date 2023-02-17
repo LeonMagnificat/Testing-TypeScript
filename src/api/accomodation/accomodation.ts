@@ -1,9 +1,9 @@
 import express from "express";
-import AccomodationsModel from "./model.js";
+import AccomodationsModel from "./model";
 import { loginFirstMiddleware } from "../../library/Auth/JWTAuth.js";
 import { hostsOnlyMiddleware } from "../../library/Auth/HostsAuth.js";
 import createHttpError from "http-errors";
-import UsersModel from "../user/model.js";
+import UsersModel from "../user/model";
 
 const accomodationRouter = express.Router();
 
@@ -18,6 +18,7 @@ accomodationRouter.post("/", loginFirstMiddleware, hostsOnlyMiddleware, async (r
     next(error);
   }
 });
+
 accomodationRouter.get("/", loginFirstMiddleware, hostsOnlyMiddleware, async (req, res, next) => {
   try {
     const Accomodations = await AccomodationsModel.find();
