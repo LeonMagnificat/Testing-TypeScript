@@ -1,8 +1,8 @@
 import express from "express";
-import { createAccessToken } from "../../library/Tools/tools.js";
-import UsersModel from "./model.js";
+import { createAccessToken } from "../../library/Tools/tools";
+import UsersModel from "./model";
 import createHttpError from "http-errors";
-import { loginFirstMiddleware } from "../../library/Auth/JWTAuth.js";
+import { loginFirstMiddleware, UserRequest } from "../../library/Auth/JWTAuth";
 
 const usersRouter = express.Router();
 
@@ -58,9 +58,9 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/user/me", loginFirstMiddleware, async (req, res, next) => {
+usersRouter.get("/user/me", loginFirstMiddleware, async (req: UserRequest, res, next) => {
   try {
-    const myProfile = await UsersModel.findById(req.user._id);
+    const myProfile = await UsersModel.findById(req.user!._id);
     res.send(myProfile);
   } catch (error) {
     next(error);
@@ -84,9 +84,9 @@ usersRouter.delete("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me/accomodations", loginFirstMiddleware, async (req, res, next) => {
-  const user = await UsersModel.findById(req.user._id).populate({ path: "accomodation", select: ["_id", "name", "maxGuests", "location"] });
-  res.send(user.accomodation);
+usersRouter.get("/me/accomodations", loginFirstMiddleware, async (req: UserRequest, res, next) => {
+  const user = await UsersModel.findById(req.user!._id).populate({ path: "accomodation", select: ["_id", "name", "maxGuests", "location"] });
+  res.send(user);
 });
 
 export default usersRouter;

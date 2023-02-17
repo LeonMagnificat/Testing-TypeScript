@@ -5,7 +5,7 @@ interface User {
   lastName: string;
   password: string;
   email: string;
-  role: "Guets" | "Host";
+  role: "Guest" | "Host";
 }
 
 export interface UserDocument extends User, Document {}
