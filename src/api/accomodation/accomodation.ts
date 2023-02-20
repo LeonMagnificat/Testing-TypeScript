@@ -4,12 +4,13 @@ import { loginFirstMiddleware, UserRequest } from "../../library/Auth/JWTAuth.js
 import { hostsOnlyMiddleware } from "../../library/Auth/HostsAuth.js";
 import createHttpError from "http-errors";
 import UsersModel from "../user/model";
+import { Accomodation } from "./types";
 
 const accomodationRouter = express.Router();
 
-accomodationRouter.post("/", loginFirstMiddleware, hostsOnlyMiddleware, async (req: UserRequest, res, next) => {
+accomodationRouter.post("/", loginFirstMiddleware, hostsOnlyMiddleware, async (req, res, next) => {
   try {
-    const newAccomodation = await AccomodationsModel(req.body);
+    const newAccomodation: Accomodation = await AccomodationsModel(req.body);
     const { _id } = await newAccomodation.save();
     const host = await UsersModel.findByIdAndUpdate(req.user._id, { $push: { accomodation: _id } }, { new: true, runValidators: true });
     const Accomodation = await AccomodationsModel.findByIdAndUpdate(_id, { $push: { host: req.user!._id } }, { new: true, runValidators: true });
