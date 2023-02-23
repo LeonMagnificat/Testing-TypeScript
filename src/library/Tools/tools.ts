@@ -1,8 +1,14 @@
 import jwt from "jsonwebtoken";
+import { AccomodationToken } from "../../api/accomodation/types";
+import { Request } from "express";
 
 export interface TokenPayload {
   _id: string;
   role: "Guest" | "Host";
+}
+
+export interface AccomodationRequest extends Request {
+  accomodation?: AccomodationToken;
 }
 
 export const createAccessToken = (payload: TokenPayload): Promise<string> =>

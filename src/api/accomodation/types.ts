@@ -1,9 +1,9 @@
 import { Model, Document } from "mongoose";
 
-export interface Accomodation {
+export interface AccomodationToken {
+  _id: string;
   name: string;
   description: string;
-  maxGuest: Number;
+  maxGuests: number;
   location: string;
-  hist: string;
 }

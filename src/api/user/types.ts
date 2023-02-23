@@ -1,4 +1,5 @@
 import { Model, Document } from "mongoose";
+import { AccomodationToken } from "../accomodation/types";
 
 interface User {
   firstName: string;
@@ -6,6 +7,7 @@ interface User {
   password: string;
   email: string;
   role: "Guest" | "Host";
+  accomodations: [{ type: AccomodationToken }];
 }
 
 export interface UserDocument extends User, Document {}

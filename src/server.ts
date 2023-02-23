@@ -1,4 +1,5 @@
 import express from "express";
+import accomodationRouter from "./api/accomodation/accomodation";
 
 import cors from "cors";
 
@@ -11,6 +12,6 @@ server.use(cors());
 server.use(express.json());
 
 // server.use("/users", usersRouter);
-// server.use("/accomodations", accomodationRouter);
+server.use("/accomodations", accomodationRouter);
 
 export { server };

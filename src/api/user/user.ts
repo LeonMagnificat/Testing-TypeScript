@@ -3,6 +3,7 @@ import { createAccessToken } from "../../library/Tools/tools";
 import UsersModel from "./model";
 import createHttpError from "http-errors";
 import { loginFirstMiddleware, UserRequest } from "../../library/Auth/JWTAuth";
+import { hostsOnlyMiddleware } from "../../library/Auth/HostsAuth";
 
 const usersRouter = express.Router();
 
@@ -84,9 +85,9 @@ usersRouter.delete("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me/accomodations", loginFirstMiddleware, async (req: UserRequest, res, next) => {
-  const user = await UsersModel.findById(req.user!._id).populate({ path: "accomodation", select: ["_id", "name", "maxGuests", "location"] });
-  res.send(user);
+usersRouter.get("/me/accomodations", loginFirstMiddleware, hostsOnlyMiddleware, async (req: UserRequest, res, next) => {
+  const user = await UsersModel.findById(req.user!._id).populate({ path: "accomodations", select: ["_id", "name", "maxGuests", "location"] });
+  res.send(user!.accomodations);
 });
 
 export default usersRouter;
